@@ -1,0 +1,3 @@
+ # Common structure
+MONGO_URI=mongodb+srv://your_user:pass@cluster.mongodb.net/db
+JWT_SECRET=your-secret
