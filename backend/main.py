@@ -1,11 +1,9 @@
 from fastapi import FastAPI
-from routes import products
+from routes import auth, products,users
 
 app = FastAPI()
 
-# Register routers
+# Register routes
+app.include_router(auth.router)
 app.include_router(products.router)
-
-@app.get("/")
-async def root():
-    return {"message": "Backend is running"}
+app.include_router(users.router)
