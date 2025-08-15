@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; color: #2C3E50; }
+    header { display: flex; align-items: center; border-bottom: 2px solid #34495e; padding-bottom: 10px; margin-bottom: 20px; }
+    header img { height: 50px; margin-right: 15px; }
+    header h1 { font-size: 24px; margin: 0; color: #34495e; }
+    header p { margin: 0; font-size: 14px; color: #7f8c8d; }
+    
+    .summary { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+    .summary h2 { margin-bottom: 15px; }
+    .metrics { display: flex; gap: 20px; }
+    .metric { flex: 1; background: #ecf0f1; padding: 15px; border-radius: 8px; text-align: center; }
+    .metric strong { display: block; font-size: 14px; color: #7f8c8d; }
+    .metric span { font-size: 18px; font-weight: bold; color: #2C3E50; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+    th, td { border: 1px solid #ddd; padding: 10px; }
+    th { background: #34495e; color: white; text-align: left; }
+    tr:nth-child(even) { background: #f9f9f9; }
+
+    footer { margin-top: 30px; text-align: center; font-size: 12px; color: #7f8c8d; border-top: 1px solid #ccc; padding-top: 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="{{ logo_url }}" alt="Company Logo">
+    <div>
+      <h1>{{ company_name }}</h1>
+      <p>Sales Report • Generated on {{ generated_at }}</p>
+    </div>
+  </header>
+
+  <div class="summary">
+    <h2>Summary</h2>
+    <div class="metrics">
+      <div class="metric">
+        <strong>Total Sales</strong>
+        <span>₱{{ total_sales }}</span>
+      </div>
+      <div class="metric">
+        <strong>Total Orders</strong>
+        <span>{{ total_orders }}</span>
+      </div>
+      <div class="metric">
+        <strong>Total Items Sold</strong>
+        <span>{{ total_items }}</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Top Products</h2>
+  <table>
+    <tr><th>Product</th><th>Units Sold</th><th>Revenue</th></tr>
+    {% for p in top_products %}
+    <tr>
+      <td>{{ p.name }}</td>
+      <td>{{ p.quantity }}</td>
+      <td>₱{{ p.revenue }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Recent Orders</h2>
+  <table>
+    <tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Date</th></tr>
+    {% for o in recent_orders %}
+    <tr>
+      <td>{{ o.id }}</td>
+      <td>{{ o.customer_name }}</td>
+      <td>₱{{ o.total }}</td>
+      <td>{{ o.created_at.strftime("%Y-%m-%d") }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <footer>
+    {{ company_name }} • Inventory & Sales System • Confidential
+  </footer>
+</body>
+</html>

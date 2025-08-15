@@ -1,0 +1,24 @@
+.account-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Tab styling */
+.nav-tabs .nav-link {
+  border: none;
+  color: #495057;
+  font-weight: 500;
+}
+
+.nav-tabs .nav-link.active {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+  background: transparent;
+}
+
+/* Form icons */
+.form-label svg {
+  vertical-align: middle;
+  font-size: 1.2rem;
+}

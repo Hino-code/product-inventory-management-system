@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory Report | {{ company_name }}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+    :root {
+      --primary: #4f46e5;
+      --secondary: #6b7280;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --light-bg: #f9fafb;
+      --border: #e5e7eb;
+      --text-dark: #111827;
+      --text-light: #6b7280;
+    }
+    body { font-family: 'Inter', sans-serif; margin: 0; padding: 40px; font-size: 14px; color: var(--text-dark); }
+    .cover { text-align: center; padding: 80px 20px; border-bottom: 2px solid var(--primary); }
+    .cover h1 { font-size: 36px; color: var(--primary); margin-bottom: 10px; }
+    .cover p { font-size: 16px; color: var(--secondary); margin: 5px 0; }
+    .logo { max-height: 100px; margin-bottom: 20px; }
+    .summary-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0; }
+    .card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); text-align: center; }
+    .card-value { font-size: 28px; font-weight: 700; color: var(--primary); margin: 10px 0; }
+    .card-label { font-size: 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+    h2 { font-size: 18px; margin: 30px 0 10px; color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    th { background: var(--light-bg); font-weight: 600; color: var(--text-light); text-transform: uppercase; font-size: 12px; }
+    .status { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+    .status.active { background: #ecfdf5; color: var(--success); }
+    .status.inactive { background: #fee2e2; color: var(--danger); }
+    .low-stock { background: #fff7ed; color: var(--warning); font-weight: 600; }
+    .total-row td { font-weight: 600; background: var(--light-bg); border-top: 2px solid var(--border); }
+    .footer { text-align: center; font-size: 12px; color: var(--text-light); margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- Cover Page -->
+  <div class="cover">
+    {% if logo_url %}<img src="{{ logo_url }}" class="logo">{% endif %}
+    <h1>Inventory Report</h1>
+    <p>{{ company_name }}</p>
+    <p>Generated on {{ generated_on }}</p>
+  </div>
+
+  <!-- Executive Summary -->
+  <h2>Executive Summary</h2>
+  <div class="summary-cards">
+    <div class="card"><div class="card-label">Total Products</div><div class="card-value">{{ products|length }}</div></div>
+    <div class="card"><div class="card-label">Active Products</div><div class="card-value">{{ products|selectattr('is_active')|list|length }}</div></div>
+    <div class="card"><div class="card-label">Low Stock Items</div><div class="card-value">{{ products|selectattr('low_stock')|list|length }}</div></div>
+  </div>
+
+  <!-- Product Table -->
+  <h2>Detailed Inventory</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Description</th><th>Price</th><th>Stock</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for product in products %}
+      <tr class="{% if product.low_stock %}low-stock{% endif %}">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.price|php }}</td>
+        <td>{{ product.stock }}</td>
+        <td><span class="status {% if product.is_active %}active{% else %}inactive{% endif %}">{% if product.is_active %}Active{% else %}Inactive{% endif %}</span></td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" style="text-align:center; padding:20px;">No products found</td></tr>
+      {% endfor %}
+    </tbody>
+    {% if products|length > 0 %}
+    <tfoot>
+      <tr class="total-row"><td colspan="5" style="text-align:right;">Total Inventory Value: {{ inventory_value|php }}</td></tr>
+    </tfoot>
+    {% endif %}
+  </table>
+
+  <div class="footer">© {{ year }} {{ company_name }}. All rights reserved.</div>
+</body>
+</html>

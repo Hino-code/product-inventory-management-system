@@ -1,11 +1,13 @@
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status, requests
 from fastapi.security import OAuth2PasswordRequestForm
 from models.user import UserCreate, UserOut
 from core.security import hash_password, verify_password, create_access_token
+from core.security import get_current_user
 from db import db
 import uuid
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+
 
 # -------------------
 # Signup (Owner creates users)
@@ -17,6 +19,12 @@ async def signup(user: UserCreate):
     if existing:
         raise HTTPException(status_code=400, detail="Username already taken")
 
+    # Check email uniqueness (if provided)
+    if user.email:
+        email_exists = await db["users"].find_one({"email": user.email})
+        if email_exists:
+            raise HTTPException(status_code=400, detail="Email already in use")
+
     # Hash password
     hashed_pw = hash_password(user.password)
 
@@ -26,16 +34,16 @@ async def signup(user: UserCreate):
         "username": user.username,
         "hashed_password": hashed_pw,
         "role": user.role,
-        "is_active": True  # ✅ user starts active
+        "is_active": True,
+        "full_name": user.full_name,
+        "email": user.email,
+        "contact_no": user.contact_no,
+        "address": user.address,
+        "dob": str(user.dob) if user.dob else None,
     }
     await db["users"].insert_one(new_user)
 
-    return UserOut(
-        id=new_user["id"],
-        username=user.username,
-        role=user.role,
-        is_active=True
-    )
+    return UserOut(**new_user)
 
 
 # -------------------
@@ -64,3 +72,14 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     })
 
     return {"access_token": token, "token_type": "bearer"}
+
+
+@router.get("/me", response_model=UserOut)
+async def get_me(current_user=Depends(get_current_user)):
+    """Return user info for the current token."""
+    # Look up full user in DB using ID from token
+    user = await db["users"].find_one({"id": current_user["id"]})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return UserOut(**user)

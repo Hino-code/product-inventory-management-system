@@ -1,0 +1,120 @@
+/* ====== Page Wrapper ====== */
+.login-page {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* ====== Card Wrapper ====== */
+.login-card-wrapper {
+  max-width: 900px;
+  min-height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  /* Smooth animation */
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.3s ease;
+}
+
+/* Animate in on load */
+.login-card-wrapper.loaded {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Optional hover lift */
+.login-card-wrapper:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+}
+
+/* ====== Image Side ====== */
+.login-image {
+  background-image: url('/INC.jpg');
+  background-size: cover;       /* scales image to cover container */
+  background-position: 10% 40%; /* move 10% from left, 40% from top */
+  background-repeat: no-repeat;
+  width: 100%;                  /* full width of column */
+  height: 100%;                 /* full height of column */
+  min-height: 500px;            /* ensure container height */
+}
+
+
+
+
+.login-image:hover {
+  transform: scale(1.02);
+}
+
+/* ====== Form Side ====== */
+.login-card-wrapper .col-md-6 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+/* ====== Text ====== */
+.login-card-wrapper h3,
+.login-card-wrapper p,
+.login-card-wrapper .form-label,
+.login-card-wrapper input,
+.login-card-wrapper .login-footer,
+.login-card-wrapper .btn-link {
+  color: #000 !important; /* black text */
+}
+
+/* ====== Inputs ====== */
+.login-card-wrapper input.form-control {
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.login-card-wrapper input.form-control:focus {
+  border-color: #343a40;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== Buttons ====== */
+.btn-dark {
+  background-color: #343a40;
+  border-color: #343a40;
+  transition: all 0.3s ease;
+}
+
+.btn-dark:hover {
+  background-color: #23272b;
+  border-color: #23272b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ====== Footer ====== */
+.login-footer {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  .login-card-wrapper {
+    max-width: 100%;
+    margin: 1rem;
+    min-height: auto;
+  }
+
+  .login-image {
+    display: none; /* hide image on small screens */
+  }
+}

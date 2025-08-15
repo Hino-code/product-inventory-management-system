@@ -1,0 +1,106 @@
+/* Card Styles */
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+
+/* Card Body */
+.dashboard-card .card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Title Styles */
+.card-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+/* Value Styles */
+.card-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: auto 0;
+  text-align: center;
+  cursor: help;
+  position: relative;
+}
+
+.compact-indicator {
+  font-size: 0.6em;
+  color: #94a3b8;
+  margin-left: 2px;
+  vertical-align: super;
+}
+
+/* Color Variants */
+.text-dark { color: #1e293b; }
+.text-danger { color: #dc3545; }
+.text-success { color: #28a745; }
+
+/* Chart Containers */
+.chart-container {
+  height: 180px;
+  margin-top: auto;
+  position: relative;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .card-value {
+    font-size: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 0.65rem;
+  }
+
+  .chart-container {
+    height: 160px;
+  }
+}
+
+/* Ensures proper chart container sizing */
+.product-status-wrapper {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+
+/* Center text styling */
+.center-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 60%;
+}
+
+.percentage-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #28a745;
+  line-height: 1.2;
+}
+
+.percentage-label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 4px;
+}

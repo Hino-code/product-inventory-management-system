@@ -1,0 +1,4 @@
+body.modal-open-blur > #root {
+  filter: blur(3px);
+  pointer-events: none;
+}
